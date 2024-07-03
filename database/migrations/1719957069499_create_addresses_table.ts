@@ -13,7 +13,6 @@ export default class extends BaseSchema {
       table.string('city', 255).notNullable()
       table.string('state', 2).notNullable()
       table.string('zip_code', 8).notNullable()
-      table.integer('client_id').unsigned().references('id').inTable('clients').onDelete('CASCADE')
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

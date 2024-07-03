@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  app:
+    build: .
+    container_name: app
+    restart: always
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      PORT: ${PORT}
+      HOST: ${HOST}
+      LOG_LEVEL: ${LOG_LEVEL}
+      APP_KEY: ${APP_KEY}
+      NODE_ENV: ${NODE_ENV}
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${MYSQL_HOST}
+      DB_PORT: ${MYSQL_PORT}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3333:3333"
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+    command: >
+      sh -c "
+      node ace migration:run &&
+      node ace serve --hmr
+      "
+    # include "node ace db:seed &&" after "node ace migration:run &" if you want to seed the database
+
+volumes:
+  mysql_data:
+    driver: local
