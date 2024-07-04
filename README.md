@@ -1,4 +1,4 @@
-# RESTful API E-commmerce Project
+# RESTful API E-Commerce Project
 
 This is a MVP e-commerce-like API developed from scratch. It allows users to manage users, clients, product and sales. The project follows the MVC architecture and includes user authentication with JWT.
 
