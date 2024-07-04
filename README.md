@@ -1,6 +1,6 @@
 # RESTful API E-Commerce Project
 
-This is a MVP e-commerce-like API developed from scratch. It allows users to manage users, clients, product and sales. The project follows the MVC architecture and includes user authentication with JWT.
+This is a MVP e-commerce-like API developed from scratch. It allows you to manage users, clients, products and sales. The project follows the MVC architecture and includes user authentication with JWT.
 
 <br>
 
@@ -22,7 +22,7 @@ This project was developed using:
 <p style>Clone this repository to your local machine and access the cloned directory:</p>
 
 <pre><code>git clone git@github.com:clintonbrito/restful-api-ecommerce.git
-cd restful-api-ecommerce.git</code></pre>
+cd restful-api-ecommerce</code></pre>
 
 <p>Run this command to create all the project's Docker containers and install the dependencies:</p>
 
