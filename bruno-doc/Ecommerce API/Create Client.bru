@@ -7,12 +7,28 @@ meta {
 post {
   url: {{baseURL}}/clients
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwMzAxNDY1LCJleHAiOjE3MjAzMDUwNjV9.tOfSLomxWE4WUiptE8V5uhf98_lQNwrfp_UUpkWSBL8
 }
 
 body:json {
   {
-    "email": "teste@teste.com",
-    "password": "12345678"
+    "fullName": "Clinton Brito",
+    "cpf": "12345678900",
+    "userId": 1,
+    "address": {
+      "street": "Main St",
+      "number": 123,
+      "neighborhood": "Anyneighbor",
+      "city": "Anytown",
+      "state": "SP",
+      "zipCode": "12345678"
+    },
+    "phone": {
+      "number": "11912345678"
+    }
   }
 }
