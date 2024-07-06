@@ -1,9 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 import User from '#models/user'
-import userSchema from '../../utils/schemas.js'
 import JWT from '../../utils/jwt.js'
 import hash from '@adonisjs/core/services/hash'
+import { userSchema } from '../../utils/schemas.js'
 
 export default class UsersController {
   async signup({ request, response }: HttpContext) {
