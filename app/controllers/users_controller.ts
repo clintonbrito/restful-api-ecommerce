@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 import User from '#models/user'
 import userSchema from '../../utils/schemas.js'
+import JWT from '../../utils/jwt.js'
 
 export default class UsersController {
   async signup({ request, response }: HttpContext) {
@@ -23,8 +24,7 @@ export default class UsersController {
 
       const newUser = await User.create(data)
 
-      // const token = await Auth.generateToken(user)
-      const token = 'token fictício asdfasdfasdf'
+      const token = JWT.sign({ id: newUser.id, email: newUser.email })
 
       return response.status(201).json({ token })
     } catch (error) {
