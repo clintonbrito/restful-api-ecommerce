@@ -4,6 +4,7 @@ import Client from '#models/client'
 import Address from '#models/address'
 import Phone from '#models/phone'
 import jwt from 'jsonwebtoken'
+import { ClientDto } from '../dtos/client_dto.js'
 
 export default class ClientsController {
   async create({ request, response }: HttpContext) {
@@ -52,6 +53,30 @@ export default class ClientsController {
       if (error.code === 'ER_DUP_ENTRY') {
         return response.status(400).json({ message: 'Client with this CPF already exists.' })
       }
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
+
+  async getAll({ response }: HttpContext) {
+    try {
+      const clients = await Client.query().orderBy('id', 'asc')
+
+      if (!clients.length) {
+        return response.status(404).json({ message: 'No clients found.' })
+      }
+
+      // Não consegui fazer o mapeamento de address e phone, pois não consegui acessar os dados de address e phone. Resolver depois.
+      const clientsDto = clients.map(
+        (client) =>
+          new ClientDto(client.id, client.fullName, client.cpf, client.address, client.phone)
+      )
+
+      return response.status(200).json({ data: clientsDto })
+    } catch (error) {
       console.log(error)
       return response.status(500).json({
         message: 'Internal server error',
