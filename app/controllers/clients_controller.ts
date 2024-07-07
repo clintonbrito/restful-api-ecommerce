@@ -45,10 +45,7 @@ export default class ClientsController {
         clientId: client.id,
       })
 
-      return response.status(201).json({
-        message: 'Client created successfully.',
-        data: { client, address, phone },
-      })
+      return response.status(201).json({ message: 'Client created successfully.' })
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
         return response.status(400).json({ message: 'Client with this CPF already exists.' })
@@ -77,6 +74,60 @@ export default class ClientsController {
 
       return response.status(200).json({ data: clientsDto })
     } catch (error) {
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
+
+  async update({ request, response }: HttpContext) {
+    try {
+      const token = request.header('Authorization')?.split(' ')[1]
+      const user = jwt.verify(token as string, process.env.APP_KEY || 'topsecret')
+
+      if (!user) {
+        return response.status(401).json({ message: 'Invalid token.' })
+      }
+
+      const { id } = request.params()
+
+      const payload = request.only(['fullName', 'cpf', 'userId', 'address', 'phone'])
+      const { error } = clientSchema.validate(payload)
+
+      if (error) {
+        return response.status(422).json({ message: error.details[0].message })
+      }
+
+      if (!payload.address || !payload.phone) {
+        return response.status(422).json({ message: 'Address and phone information are required.' })
+      }
+
+      const client = await Client.findOrFail(id)
+      // console.log('console log do client: ' + client)
+
+      client.merge({
+        fullName: payload.fullName,
+        cpf: payload.cpf,
+        userId: payload.userId,
+      })
+
+      await client.save()
+
+      const address = await Address.findByOrFail('clientId', id)
+      address.merge(payload.address)
+      await address.save()
+
+      const phone = await Phone.findByOrFail('clientId', id)
+      phone.merge(payload.phone)
+      await phone.save()
+
+      return response.status(200).json({ message: 'Client updated successfully.' })
+    } catch (error) {
+      if (error.code === 'E_ROW_NOT_FOUND') {
+        return response.status(404).json({ message: 'Client not found.' })
+      }
       console.log(error)
       return response.status(500).json({
         message: 'Internal server error',
