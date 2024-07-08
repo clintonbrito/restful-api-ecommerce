@@ -30,6 +30,28 @@ export default class ProductsController {
     }
   }
 
+  async getById({ request, response }: HttpContext) {
+    try {
+      const { id } = request.params()
+      const product = await Product.findOrFail(id)
+
+      return response.status(200).json({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+      })
+    } catch (error) {
+      if (error.code === 'E_ROW_NOT_FOUND') {
+        return response.status(404).json({ message: 'Product not found.' })
+      }
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
+
   async create({ request, response }: HttpContext) {
     try {
       const token = request.header('Authorization')?.split(' ')[1]
