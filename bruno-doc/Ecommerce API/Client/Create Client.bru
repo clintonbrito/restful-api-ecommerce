@@ -1,24 +1,24 @@
 meta {
-  name: List Clients
+  name: Create Client
   type: http
-  seq: 4
+  seq: 2
 }
 
-get {
+post {
   url: {{baseURL}}/clients
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwMzAxNDY1LCJleHAiOjE3MjAzMDUwNjV9.tOfSLomxWE4WUiptE8V5uhf98_lQNwrfp_UUpkWSBL8
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwMzA4NjMzLCJleHAiOjE3MjAzMTIyMzN9.8CIcRDiOGK2qCAnlUGkLgGRtChB6P74MUtSStUYEPac
 }
 
 body:json {
   {
     "fullName": "Clinton Brito",
     "cpf": "12345678900",
-    "userId": 1,
+    "userId": 21,
     "address": {
       "street": "Main St",
       "number": 123,
@@ -28,7 +28,7 @@ body:json {
       "zipCode": "12345678"
     },
     "phone": {
-      "number": "11912345678"
+      "number": "11912345679"
     }
   }
 }

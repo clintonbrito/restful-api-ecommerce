@@ -1,11 +1,11 @@
 meta {
-  name: Create Client
+  name: Update Client
   type: http
   seq: 3
 }
 
-post {
-  url: {{baseURL}}/clients
+put {
+  url: {{baseURL}}/clients/1
   body: json
   auth: bearer
 }
@@ -18,7 +18,7 @@ body:json {
   {
     "fullName": "Clinton Brito",
     "cpf": "12345678900",
-    "userId": 21,
+    "userId": 1,
     "address": {
       "street": "Main St",
       "number": 123,
@@ -28,7 +28,7 @@ body:json {
       "zipCode": "12345678"
     },
     "phone": {
-      "number": "11912345679"
+      "number": "11912345678"
     }
   }
 }

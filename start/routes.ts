@@ -12,6 +12,7 @@ const ClientsController = () => import('#controllers/clients_controller')
 const UsersController = () => import('#controllers/users_controller')
 // const verifyToken = () => import('#middleware/verify_token_middleware')
 const ProductsController = () => import('#controllers/products_controller')
+const SalesController = () => import('#controllers/sales_controller')
 
 router.get('/', async () => {
   return {
@@ -30,3 +31,4 @@ router.put('/products/:id', [ProductsController, 'update'])
 router.get('/products', [ProductsController, 'getAll'])
 router.get('/products/:id', [ProductsController, 'getById'])
 router.delete('/products/:id', [ProductsController, 'delete'])
+router.post('/sales', [SalesController, 'create'])

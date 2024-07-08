@@ -40,4 +40,10 @@ const productSchema = Joi.object({
   // quantity: Joi.number().required(), // implement stock control later
 })
 
-export { userSchema, clientSchema, productSchema }
+const saleSchema = Joi.object({
+  clientId: Joi.number().required(),
+  productId: Joi.number().required(),
+  quantity: Joi.number().required().min(1),
+})
+
+export { userSchema, clientSchema, productSchema, saleSchema }
