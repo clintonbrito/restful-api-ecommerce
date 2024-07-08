@@ -2,11 +2,12 @@ import type { HttpContext } from '@adonisjs/core/http'
 import jwt from 'jsonwebtoken'
 import { productSchema } from '../../utils/schemas.js'
 import Product from '#models/product'
+import { DateTime } from 'luxon'
 
 export default class ProductsController {
   async getAll({ response }: HttpContext) {
     try {
-      const products = await Product.query().orderBy('name', 'asc')
+      const products = await Product.query().whereNull('deletedAt').orderBy('name', 'asc')
 
       if (!products.length) {
         return response.status(404).json({ message: 'No products found.' })
@@ -33,7 +34,11 @@ export default class ProductsController {
   async getById({ request, response }: HttpContext) {
     try {
       const { id } = request.params()
-      const product = await Product.findOrFail(id)
+      const product = await Product.query().whereNull('deletedAt').where('id', id).first()
+
+      if (!product) {
+        return response.status(404).json({ message: 'Product not found.' })
+      }
 
       return response.status(200).json({
         name: product.name,
@@ -41,10 +46,6 @@ export default class ProductsController {
         price: product.price,
       })
     } catch (error) {
-      if (error.code === 'E_ROW_NOT_FOUND') {
-        return response.status(404).json({ message: 'Product not found.' })
-      }
-      console.log(error)
       return response.status(500).json({
         message: 'Internal server error',
         error: error.message,
@@ -126,6 +127,34 @@ export default class ProductsController {
       await product.save()
 
       return response.status(200).json({ message: 'Product updated successfully.' })
+    } catch (error) {
+      if (error.code === 'E_ROW_NOT_FOUND') {
+        return response.status(404).json({ message: 'Product not found.' })
+      }
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
+
+  async delete({ request, response }: HttpContext) {
+    try {
+      const token = request.header('Authorization')?.split(' ')[1]
+      const user = jwt.verify(token as string, process.env.APP_KEY || 'topsecret')
+
+      if (!user) {
+        return response.status(401).json({ message: 'Invalid token.' })
+      }
+
+      const { id } = request.params()
+      const product = await Product.findOrFail(id)
+
+      product.deletedAt = DateTime.now()
+      await product.save()
+
+      return response.status(200).json({ message: 'Product deleted successfully.' })
     } catch (error) {
       if (error.code === 'E_ROW_NOT_FOUND') {
         return response.status(404).json({ message: 'Product not found.' })

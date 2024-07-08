@@ -23,6 +23,10 @@ export default class Product extends BaseModel {
   // @column()
   // declare quantity: number
 
+  // soft delete feature
+  @column.dateTime()
+  declare deletedAt: DateTime
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
