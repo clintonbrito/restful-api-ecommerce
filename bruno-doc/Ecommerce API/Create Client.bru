@@ -1,0 +1,34 @@
+meta {
+  name: Create Client
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/clients
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwMzA4NjMzLCJleHAiOjE3MjAzMTIyMzN9.8CIcRDiOGK2qCAnlUGkLgGRtChB6P74MUtSStUYEPac
+}
+
+body:json {
+  {
+    "fullName": "Clinton Brito",
+    "cpf": "12345678900",
+    "userId": 21,
+    "address": {
+      "street": "Main St",
+      "number": 123,
+      "neighborhood": "Anyneighbor",
+      "city": "Anytown",
+      "state": "SP",
+      "zipCode": "12345678"
+    },
+    "phone": {
+      "number": "11912345679"
+    }
+  }
+}
