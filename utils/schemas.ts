@@ -22,4 +22,22 @@ const clientSchema = Joi.object({
   }).required(),
 })
 
-export { userSchema, clientSchema }
+const productSchema = Joi.object({
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  price: Joi.number()
+    .required()
+    .min(0) // use ".greater(0)" instead in order to remove the possibility of 0 price
+    .positive()
+    .custom((value, helpers) => {
+      if (Math.floor(value) !== value && value.toString().split('.')[1].length > 2) {
+        return helpers.error('number.precision', { limit: 2 })
+      }
+      return value
+    }, 'Precision validation')
+    .message('{{#label}} must be a positive number with a maximum of 2 decimal places.'),
+  userId: Joi.number().required(),
+  // quantity: Joi.number().required(), // implement stock control later
+})
+
+export { userSchema, clientSchema, productSchema }

@@ -16,6 +16,13 @@ export default class Product extends BaseModel {
   @column()
   declare price: number
 
+  @column()
+  declare userId: number
+
+  // implement stock control later
+  // @column()
+  // declare quantity: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
