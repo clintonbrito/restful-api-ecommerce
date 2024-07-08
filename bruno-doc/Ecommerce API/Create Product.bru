@@ -1,0 +1,24 @@
+meta {
+  name: Create Product
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseURL}}/products
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwNDYwMjk3LCJleHAiOjE3MjA0NjM4OTd9.WFp6UhpxnMAdKp4CG2hyPcDN5nMXMmwgbH4_BZ4GFQU
+}
+
+body:json {
+  {
+    "name": "MacBook Air M3",
+    "description": "laptop top para dev",
+    "price": 99.99,
+    "userId": 1
+  }
+}
