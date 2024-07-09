@@ -189,4 +189,35 @@ export default class ClientsController {
       })
     }
   }
+
+  async delete({ request, response }: HttpContext) {
+    try {
+      const token = request.header('Authorization')?.split(' ')[1]
+      const user = jwt.verify(token as string, process.env.APP_KEY || 'topsecret')
+
+      if (!user) {
+        return response.status(401).json({ message: 'Invalid token.' })
+      }
+
+      const { id } = request.params()
+      const client = await Client.findOrFail(id)
+
+      if (!client) {
+        return response.status(404).json({ message: 'Client not found.' })
+      }
+
+      await client.delete()
+
+      return response.status(200).json({ message: 'Client deleted successfully.' })
+    } catch (error) {
+      if (error.code === 'E_ROW_NOT_FOUND') {
+        return response.status(404).json({ message: 'Client not found.' })
+      }
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
 }

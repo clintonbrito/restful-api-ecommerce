@@ -1,0 +1,15 @@
+meta {
+  name: Delete Client by Id
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseURL}}/clients/36
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwNDg1NzE4LCJleHAiOjE3MjA0ODkzMTh9.-hZDBKnwUNZvtuoxtCiMa-t_q2Cn4jvQAeznY_BpvOU
+}
