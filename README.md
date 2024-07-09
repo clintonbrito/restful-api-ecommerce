@@ -69,11 +69,13 @@ Feel free to explore and test the API directly any other API client you prefer. 
 ## 🔭 Future features
 
 For future features, I intend to include:
-1. Date filtering for sales;
-2. Separate business logic in service layer;
-3. Work on better DTOs;
-4. Use Authentication as a middleware instead of manually checking JWT credentials;
-5. Deploy the project on a cloud service.
+1. Unit testing with a high code coverage;
+2. Date filtering for sales;
+3. Improve user authentication and authorization policy;
+4. Use Auth as a middleware instead of manually checking JWT credentials;
+5. Separate business logic in service layer;
+6. Work on better DTOs;
+7. Deploy the project on a cloud service.
 
 <br>
 
