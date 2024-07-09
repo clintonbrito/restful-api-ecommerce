@@ -1,17 +1,17 @@
 meta {
-  name: List Clients
+  name: Update Client
   type: http
   seq: 4
 }
 
-get {
-  url: {{baseURL}}/clients
+put {
+  url: {{baseURL}}/clients/1
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwMzAxNDY1LCJleHAiOjE3MjAzMDUwNjV9.tOfSLomxWE4WUiptE8V5uhf98_lQNwrfp_UUpkWSBL8
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwMzA4NjMzLCJleHAiOjE3MjAzMTIyMzN9.8CIcRDiOGK2qCAnlUGkLgGRtChB6P74MUtSStUYEPac
 }
 
 body:json {

@@ -151,6 +151,10 @@ export default class ProductsController {
       const { id } = request.params()
       const product = await Product.findOrFail(id)
 
+      if (product.deletedAt) {
+        return response.status(404).json({ message: 'Product not found.' })
+      }
+
       product.deletedAt = DateTime.now()
       await product.save()
 
