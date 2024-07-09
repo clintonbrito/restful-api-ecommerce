@@ -34,28 +34,46 @@ cd restful-api-ecommerce</code></pre>
 
 Check the docker logs using the command `docker logs -f app` which address is running the application and open your browser or any prefered API client in order to test the endpoints through the address below, for example:
 
-<pre><code>http://localhost:3333/</code></pre>
+<pre><code>http://127.0.0.1:3333</code></pre>
 
 <br>
 
 ## 📖 API Documentation
 
-Explore the API documentation to understand the available endpoints, request parameters, and responses. The documentation is built using XXXX, which provides an interactive and user-friendly interface.
+Explore the API documentation to understand the available endpoints, request parameters, and responses. The documentation is built using [Bruno 🐶](https://www.usebruno.com/), a fast and Git-friendly Opensource API client, which also provides an interactive and user-friendly interface.
 
 ### Accessing API Documentation
 
 1. **Run the Application:**
    Make sure the application is running locally. Follow the [Getting Started](#-getting-started-locally) section for instructions on starting the application.
 
-2. **Open XXXX UI:**
-   Once the application is running, you can access the XXXX UI by navigating to the following URL in your web browser:
+2. **Feel free to give a try to Bruno and download it:**
+   Check out the [Download](https://www.usebruno.com/downloads) page and follow the instructions.
 
-<pre><code>http://localhost:3333/api/v1/ui</code></pre>
+3. **Open Bruno Desktop App:**
+   Once the application Docker containers are running ok, you can access the Bruno Desktop App.
 
-3. **Explore Endpoints:**
-   In the XXXX UI, you'll find a list of available endpoints along with details about request parameters, expected responses, and sample requests. Use this interface to understand how to interact with the API.
+![API Documentation](docs/bruno.png)
 
-Feel free to explore and test the API directly from the XXXX UI. If you encounter any issues or have questions, refer to the [Issues](https://github.com/clintonbrito/restful-api-ecommerce/issues) section for support.
+4. **Explore Endpoints:**
+   In the Bruno Desktop App, you just need to import `/docs/Ecommerce API` collection folder and voilà: you'll find a list of available endpoints along with details about request parameters. Use this interface to understand how to interact with the API. The base URL of the API which you should use as an environment variable on Bruno is the following:
+   
+   <pre><code>http://127.0.0.1:3333</code></pre>
+
+![API Documentation](docs/api_documentation.png)
+
+Feel free to explore and test the API directly any other API client you prefer. If you encounter any issues or have questions, refer to the [Issues](https://github.com/clintonbrito/restful-api-ecommerce/issues) section for support.
+
+<br>
+
+## 🔭 Future features
+
+For future features, I intend to include:
+1. Date filtering for sales;
+2. Separate business logic in service layer;
+3. Work on better DTOs;
+4. Use Authentication as a middleware instead of manually checking JWT credentials;
+5. Deploy the project on a cloud service.
 
 <br>
 

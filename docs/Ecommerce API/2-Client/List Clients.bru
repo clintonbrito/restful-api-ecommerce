@@ -1,0 +1,15 @@
+meta {
+  name: List Clients
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseURL}}/clients
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsImVtYWlsIjoidGVzdGFAdGVzdGUuY29tIiwiaWF0IjoxNzIwNDg4ODI5LCJleHAiOjE3MjA0OTI0Mjl9.NuKqjnDu2nbmmeonLuIUuaRtwF4Z3Y9ACBt1EJSR2ZA
+}
