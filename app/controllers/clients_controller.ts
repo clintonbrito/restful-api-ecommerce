@@ -5,8 +5,86 @@ import Address from '#models/address'
 import Phone from '#models/phone'
 import jwt from 'jsonwebtoken'
 import { ClientDto } from '../dtos/client_dto.js'
+import { PhoneDto } from '../dtos/phone_dto.js'
 
 export default class ClientsController {
+  async getAll({ response }: HttpContext) {
+    try {
+      const clients = await Client.query().orderBy('id', 'asc')
+
+      if (!clients.length) {
+        return response.status(404).json({ message: 'No clients found.' })
+      }
+
+      // Search for sales related to each client and map them to a DTO
+      const clientsDto = await Promise.all(
+        clients.map(async (client) => {
+          const sales = await client.related('sales').query().orderBy('createdAt', 'desc')
+          const salesDto = sales.map((sale) => ({
+            clientId: sale.clientId,
+            productId: sale.productId,
+            quantity: sale.quantity,
+            totalPrice: sale.totalPrice,
+          }))
+
+          // const address = await client.related('address').query().first()
+          // const addressDto: AddressDto = address
+          //   ? {
+          //       street: address.street,
+          //       number: address.number,
+          //       neighborhood: address.neighborhood,
+          //       city: address.city,
+          //       state: address.state,
+          //       zipCode: address.zipCode,
+          //     }
+          //   : {}
+
+          const phone = await client.related('phone').query().first()
+          const phoneDto: PhoneDto = phone ? { number: phone.number } : {}
+
+          // Here I'm returning the client DTO with the sales DTO
+          return new ClientDto(client.fullName, client.cpf, phoneDto, salesDto)
+        })
+      )
+
+      return response.status(200).json({ data: clientsDto })
+    } catch (error) {
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
+
+  async getById({ request, response }: HttpContext) {
+    try {
+      const { id } = request.params()
+      const client = await Client.findOrFail(id)
+      const saleData = await client.related('sales').query().orderBy('createdAt', 'desc')
+
+      const saleDto = saleData.map((sale) => ({
+        clientId: sale.clientId,
+        productId: sale.productId,
+        quantity: sale.quantity,
+        totalPrice: sale.totalPrice,
+      }))
+
+      const clientDto = new ClientDto(client.fullName, client.cpf, client.phone, saleDto)
+
+      return response.status(200).json({ data: clientDto })
+    } catch (error) {
+      if (error.code === 'E_ROW_NOT_FOUND') {
+        return response.status(404).json({ message: 'Client not found.' })
+      }
+      console.log(error)
+      return response.status(500).json({
+        message: 'Internal server error',
+        error: error.message,
+      })
+    }
+  }
+
   async create({ request, response }: HttpContext) {
     try {
       const token = request.header('Authorization')?.split(' ')[1]
@@ -50,30 +128,6 @@ export default class ClientsController {
       if (error.code === 'ER_DUP_ENTRY') {
         return response.status(400).json({ message: 'Client with this CPF already exists.' })
       }
-      console.log(error)
-      return response.status(500).json({
-        message: 'Internal server error',
-        error: error.message,
-      })
-    }
-  }
-
-  async getAll({ response }: HttpContext) {
-    try {
-      const clients = await Client.query().orderBy('id', 'asc')
-
-      if (!clients.length) {
-        return response.status(404).json({ message: 'No clients found.' })
-      }
-
-      // Não consegui fazer o mapeamento de address e phone, pois não consegui acessar os dados de address e phone. Resolver depois.
-      const clientsDto = clients.map(
-        (client) =>
-          new ClientDto(client.id, client.fullName, client.cpf, client.address, client.phone)
-      )
-
-      return response.status(200).json({ data: clientsDto })
-    } catch (error) {
       console.log(error)
       return response.status(500).json({
         message: 'Internal server error',

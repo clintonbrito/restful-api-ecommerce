@@ -1,15 +1,13 @@
 export class SaleDto {
   clientId: number
   productId: number
-  productPrice: number
   quantity: number
   totalPrice: number
 
-  constructor(clientId: number, productId: number, productPrice: number, quantity: number) {
+  constructor(clientId: number, productId: number, quantity: number, totalPrice: number) {
     this.clientId = clientId
     this.productId = productId
-    this.productPrice = productPrice
     this.quantity = quantity
-    this.totalPrice = quantity * this.productPrice
+    this.totalPrice = totalPrice
   }
 }

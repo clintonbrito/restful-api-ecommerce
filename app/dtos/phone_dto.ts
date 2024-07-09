@@ -1,5 +1,5 @@
 export class PhoneDto {
-  number: string
+  number?: string
 
   constructor(number: string) {
     this.number = number
